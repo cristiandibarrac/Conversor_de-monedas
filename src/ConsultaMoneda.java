@@ -17,16 +17,14 @@ public class ConsultaMoneda {
                 .uri(direccion)
                 .build();
 
-        HttpResponse<String> response = null;
         try {
-            response = client
+            HttpResponse<String> response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            return new Gson().fromJson(response.body(), Moneda.class);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("No fue posible realizar la operación");
         }
-        return new Gson().fromJson(response.body(), Moneda.class);
+
 
     }
 }
